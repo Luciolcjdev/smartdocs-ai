@@ -1,7 +1,6 @@
 // app/(dashboard)/upload/page.tsx
 import { redirect } from "next/navigation";
 
-import Teste from "@/components/shared/teste";
 import { UploadSection } from "@/components/upload/upload-section";
 import { getSession } from "@/lib/get-session";
 

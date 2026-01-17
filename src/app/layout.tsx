@@ -15,8 +15,22 @@ const roboto_mono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SmartDocs Ai",
-  description: "A plataforma de gestão documental impulsionada por IA.",
+  title: "SmartDocs AI - Automated Code Documentation",
+  description:
+    "Generate beautiful, accurate documentation for your code using AI. Support for JavaScript, TypeScript, Python, and more.",
+  keywords: ["documentation", "AI", "code", "automation", "developer tools"],
+  authors: [{ name: "Your Name" }],
+  openGraph: {
+    title: "SmartDocs AI",
+    description: "AI-powered code documentation generator",
+    images: ["/og-image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SmartDocs AI",
+    description: "AI-powered code documentation generator",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({

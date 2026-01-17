@@ -1,86 +1,65 @@
+// app/(dashboard)/dashboard/page.tsx
 import { eq } from "drizzle-orm";
-import Link from "next/link";
+import { count } from "drizzle-orm";
+import { headers } from "next/headers";
 
+// import { RecentActivity } from "@/components/dashboard/RecentActivity";
+// import { StatsCard } from "@/components/dashboard/StatsCard";
+// import { UsageChart } from "@/components/dashboard/UsageChart";
 import { db } from "@/db";
-import { document, workspace, workspaceMember } from "@/db/schema";
-import { getSession } from "@/lib/get-session";
-
-async function getWorkspaceId(userId: string) {
-  const member = await db.query.workspaceMember.findFirst({
-    where: (wm) => eq(wm.userId, userId),
-  });
-
-  return member?.workspaceId;
-}
+import { creditUsage, document, workspace, workspaceMember } from "@/db/schema";
+import { auth } from "@/lib/auth";
 
 export default async function DashboardPage() {
-  const session = await getSession();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  if (!session?.user) {
-    return (
-      <div className="p-8">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-red-500">Você precisa estar logado.</p>
-      </div>
-    );
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
   }
 
-  const workspaceId = await getWorkspaceId(session.user.id);
+  const userId = session.user.id;
 
-  if (!workspaceId) {
-    return (
-      <div className="p-8">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-red-500">Workspace não encontrado.</p>
-      </div>
-    );
-  }
+  const [documentsCount, creditsCount, workspacesCount] = await Promise.all([
+    // 📄 Documents count (workspace → members → user)
+    db
+      .select({ value: count() })
+      .from(document)
+      .innerJoin(workspace, eq(document.workspaceId, workspace.id))
+      .innerJoin(workspaceMember, eq(workspaceMember.workspaceId, workspace.id))
+      .where(eq(workspaceMember.userId, userId))
+      .then((res) => res[0]?.value ?? 0),
+
+    // ⚡ Credit usage count
+    db
+      .select({ value: count() })
+      .from(creditUsage)
+      .where(eq(creditUsage.userId, userId))
+      .then((res) => res[0]?.value ?? 0),
+
+    // 👥 Workspaces count
+    db
+      .select({ value: count() })
+      .from(workspace)
+      .innerJoin(workspaceMember, eq(workspaceMember.workspaceId, workspace.id))
+      .where(eq(workspaceMember.userId, userId))
+      .then((res) => res[0]?.value ?? 0),
+  ]);
 
   return (
     <div className="p-8">
-      <h1 className="mb-4 text-3xl font-bold">Dashboard</h1>
+      <h1 className="mb-8 text-3xl font-bold">Dashboard</h1>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-xl border p-4">
-          <h2 className="text-sm font-semibold text-gray-500">Workspace</h2>
-          <p className="text-lg font-bold">{workspaceId}</p>
-        </div>
-
-        <div className="rounded-xl border p-4">
-          <h2 className="text-sm font-semibold text-gray-500">Documentos</h2>
-          <p className="text-lg font-bold">21</p>
-        </div>
-
-        <div className="rounded-xl border p-4">
-          <h2 className="text-sm font-semibold text-gray-500">Status</h2>
-          <p className="text-lg font-bold text-green-600">Online</p>
-        </div>
+      <div className="mb-8 grid grid-cols-3 gap-6">
+        {/* <StatsCard title="Documents" value={documentsCount} icon="file" />
+        <StatsCard title="Generations" value={creditsCount} icon="zap" />
+        <StatsCard title="Workspaces" value={workspacesCount} icon="users" /> */}
       </div>
 
-      <div className="rounded-xl border p-4">
-        <h2 className="mb-2 text-xl font-bold">Últimos documentos</h2>
-
-        <p className="text-gray-500">Nenhum documento processado ainda.</p>
-        <div className="space-y-2">
-          <div className="rounded-lg border p-3 transition hover:bg-gray-50">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-bold">Como plantar uma árvore</p>
-                <p className="text-xs text-gray-500">java</p>
-              </div>
-              {/* <Link
-                // href={`/documents/${document.id}`}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm text-blue-600"
-              >
-                Abrir arquivo
-              </Link> */}
-            </div>
-
-            <p className="mt-2 line-clamp-3 text-sm text-gray-700">Plante mais</p>
-          </div>
-        </div>
+      <div className="grid grid-cols-2 gap-6">
+        {/* <UsageChart />
+        <RecentActivity /> */}
       </div>
     </div>
   );
