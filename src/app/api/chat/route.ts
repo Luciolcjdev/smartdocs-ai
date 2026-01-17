@@ -2,6 +2,7 @@
 import { db } from "@/db";
 import { chat, creditUsage } from "@/db/schema";
 import { chatWithRAG } from "@/lib/ai/rag";
+import { consumeCredits } from "@/lib/credits/consume";
 import { getSession } from "@/lib/get-session";
 
 export async function POST(req: Request) {
@@ -36,6 +37,8 @@ export async function POST(req: Request) {
       content: message,
       timestamp: new Date().toISOString(),
     });
+
+    await consumeCredits(session.user.id, workspaceId, 1, "chat", { documentId });
 
     // Gerar resposta com RAG
     const stream = await chatWithRAG(message, workspaceId);

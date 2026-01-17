@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { creditUsage, document } from "@/db/schema";
 import { generateDocumentation } from "@/lib/ai/generate-docs";
+import { consumeCredits } from "@/lib/credits/consume";
 import { getSession } from "@/lib/get-session";
 
 export async function POST(req: NextRequest) {
@@ -23,6 +24,8 @@ export async function POST(req: NextRequest) {
     if (!doc) {
       return NextResponse.json({ error: "Document not found" }, { status: 404 });
     }
+
+    await consumeCredits(session.user.id, doc.workspaceId, 1, "generation", { documentId: doc.id });
 
     // TODO: Verificar créditos disponíveis
     // const hasCredits = await checkCredits(doc.workspaceId, 1);

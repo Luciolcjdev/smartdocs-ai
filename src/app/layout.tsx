@@ -15,16 +15,21 @@ const roboto_mono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
+
   title: "SmartDocs AI - Automated Code Documentation",
   description:
     "Generate beautiful, accurate documentation for your code using AI. Support for JavaScript, TypeScript, Python, and more.",
+
   keywords: ["documentation", "AI", "code", "automation", "developer tools"],
   authors: [{ name: "Your Name" }],
+
   openGraph: {
     title: "SmartDocs AI",
     description: "AI-powered code documentation generator",
-    images: ["/og-image.png"],
+    images: ["/og-image.png"], // agora vira URL absoluta automaticamente
   },
+
   twitter: {
     card: "summary_large_image",
     title: "SmartDocs AI",
