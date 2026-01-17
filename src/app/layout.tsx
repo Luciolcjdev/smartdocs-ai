@@ -2,7 +2,9 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
-import { Toaster } from "sonner";
+
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ToasterProvider } from "@/components/providers/toaster-provider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -46,8 +48,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${roboto_mono.variable} antialiased`}>
-        {children}
-        <Toaster position="top-center" />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <ToasterProvider />
+        </ThemeProvider>
       </body>
     </html>
   );

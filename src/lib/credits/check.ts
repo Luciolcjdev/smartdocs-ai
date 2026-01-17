@@ -36,7 +36,13 @@ export async function getUsageStats(workspaceId: string) {
   const [ws] = await db.select().from(workspace).where(eq(workspace.id, workspaceId)).limit(1);
 
   if (!ws) {
-    throw new Error("Workspace not found");
+    return {
+      used: 0,
+      limit: 0,
+      remaining: 0,
+      percentage: 0,
+      plan: "FREE",
+    };
   }
 
   const plan = PLANS[ws.plan];
