@@ -22,7 +22,6 @@ export default async function UploadPage() {
       </div>
 
       <UploadSection />
-      <Teste />
     </div>
   );
 }
