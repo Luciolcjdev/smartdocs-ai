@@ -8,13 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getInvoices } from "@/lib/stripe/get-invoices";
 import { formatDate } from "@/lib/utils";
 
-interface Invoice {
-  id: string;
-  date: Date;
-  amount: number;
-  status: "paid" | "pending" | "failed";
-  invoiceUrl?: string;
-}
+// interface Invoice {
+//   id: string;
+//   date: Date;
+//   amount: number;
+//   status: "paid" | "pending" | "failed";
+//   invoiceUrl?: string;
+// }
 
 interface BillingHistoryProps {
   workspaceId: string;

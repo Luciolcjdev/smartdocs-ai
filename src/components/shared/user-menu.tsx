@@ -57,7 +57,7 @@ export function UserMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/upload">
+          <Link href="/dashboard">
             <User className="mr-2 h-4 w-4" />
             Dashboard
           </Link>
@@ -70,8 +70,10 @@ export function UserMenu() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer text-red-600">
-          <LogOut className="mr-2 h-4 w-4" />
-          Sign out
+          <Link href="/authentication" className="flex gap-2">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign out
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

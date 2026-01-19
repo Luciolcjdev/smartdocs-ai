@@ -9,7 +9,7 @@ import { CreditsBadge } from "./credits-badge";
 
 export function Navbar() {
   return (
-    <header className="flex h-16 items-center justify-between border-b bg-white px-6 dark:bg-gray-950">
+    <header className="flex h-20 items-center justify-between border-b bg-white px-6 dark:bg-gray-950">
       <div className="flex items-center gap-4">
         {/* Breadcrumb ou título da página pode ir aqui */}
       </div>

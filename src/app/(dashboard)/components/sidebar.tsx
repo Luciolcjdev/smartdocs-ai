@@ -10,6 +10,7 @@ import {
   Sparkles,
   Upload,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -61,8 +62,8 @@ export function Sidebar() {
       {/* Logo */}
       <div className="p-6">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-blue-600 to-purple-600">
-            <Sparkles className="h-5 w-5 text-white" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg">
+            <Image src="/logo-icon.png" width={25} height={25} alt="SmartDocs AI" priority />
           </div>
           <span className="text-xl font-bold">SmartDocs AI</span>
         </Link>
