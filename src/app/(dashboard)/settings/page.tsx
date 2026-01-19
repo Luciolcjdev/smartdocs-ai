@@ -1,13 +1,13 @@
 // app/(dashboard)/settings/page.tsx
-import { motion } from "framer-motion";
 import { redirect } from "next/navigation";
 
-import { DangerZone } from "@/components/settings/danger-zone";
-import { UpdateProfileForm } from "@/components/settings/update-profile-form";
-import { PageTransition } from "@/components/shared/page-transition";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { getSession } from "@/lib/get-session";
+
+import { DangerZone } from "./components/danger-zone";
+import { UpdateProfileForm } from "./components/update-profile-form";
 
 export default async function SettingsPage() {
   const session = await getSession();
@@ -17,40 +17,73 @@ export default async function SettingsPage() {
   }
 
   return (
-    <PageTransition>
-      <div className="max-w-4xl space-y-6 p-8">
-        <div>
-          <h1 className="text-3xl font-bold">Settings</h1>
-          <p className="text-muted-foreground mt-1">Manage your account settings and preferences</p>
-        </div>
-
-        <Separator />
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ duration: 0.2 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile</CardTitle>
-              <CardDescription>Update your personal information</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <UpdateProfileForm user={session.user} />
-            </CardContent>
-          </Card>
-
-          <Card className="border-destructive">
-            <CardHeader>
-              <CardTitle className="text-destructive">Danger Zone</CardTitle>
-              <CardDescription>Irreversible actions. Proceed with caution.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <DangerZone />
-            </CardContent>
-          </Card>
-        </motion.div>
+    <div className="max-w-4xl space-y-6 p-8">
+      <div>
+        <h1 className="text-3xl font-bold">Settings</h1>
+        <p className="text-muted-foreground mt-1">Manage your account settings and preferences</p>
       </div>
-    </PageTransition>
+
+      <Separator />
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Profile</CardTitle>
+          <CardDescription>Update your personal information</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <UpdateProfileForm user={session.user} />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Preferences</CardTitle>
+          <CardDescription>Customize your experience</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">Email Notifications</p>
+                <p className="text-muted-foreground text-sm">
+                  Receive emails about your account activity
+                </p>
+              </div>
+              {/* TODO: Add switch component */}
+              <div className="text-muted-foreground text-sm">
+                C
+                <Switch
+                  defaultChecked={true}
+                  onCheckedChange={(checked) => {
+                    // TODO: Salvar preferência
+                    console.log("Email notifications:", checked);
+                  }}
+                />
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">Language</p>
+                <p className="text-muted-foreground text-sm">Select your preferred language</p>
+              </div>
+              <div className="text-muted-foreground text-sm">English (US)</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-destructive">
+        <CardHeader>
+          <CardTitle className="text-destructive">Danger Zone</CardTitle>
+          <CardDescription>Irreversible actions. Proceed with caution.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <DangerZone />
+        </CardContent>
+      </Card>
+    </div>
   );
 }

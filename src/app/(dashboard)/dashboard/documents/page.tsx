@@ -5,18 +5,19 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-import { DocumentCard } from "@/components/documents/document-card";
 import { DocumentListSkeleton } from "@/components/shared/document-skeleton";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { document } from "@/db/schema";
 import { getSession } from "@/lib/get-session";
 
+import { DocumentCard } from "./components/document-card";
+
 export default async function DocumentsPage() {
   const session = await getSession();
 
   if (!session) {
-    redirect("/login");
+    redirect("/authentication");
   }
 
   const workspaceId = "temp-workspace-id";
