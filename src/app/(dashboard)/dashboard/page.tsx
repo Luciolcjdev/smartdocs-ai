@@ -7,9 +7,9 @@ import { db } from "@/db";
 import { creditUsage, document } from "@/db/schema";
 import { getSession } from "@/lib/get-session";
 
-import { RecentActivity } from "./components/recent-activity";
-import { StatsCards } from "./components/stats-cards";
-import { UsageChart } from "./components/usage-chart";
+import { RecentActivity } from "../components/recent-activity";
+import { StatsCards } from "../components/stats-cards";
+import { UsageChart } from "../components/usage-chart";
 
 export default async function DashboardPage() {
   const session = await getSession();

@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 
 import { getSession } from "@/lib/get-session";
 
-import { Navbar } from "./dashboard/components/navbar";
-import { Sidebar } from "./dashboard/components/sidebar";
+import { Navbar } from "./components/navbar";
+import { Sidebar } from "./components/sidebar";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();

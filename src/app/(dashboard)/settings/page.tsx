@@ -3,10 +3,10 @@ import { redirect } from "next/navigation";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { getSession } from "@/lib/get-session";
 
 import { DangerZone } from "./components/danger-zone";
+import { EmailNotificationsToggle } from "./components/email-notifications-toggle";
 import { UpdateProfileForm } from "./components/update-profile-form";
 
 export default async function SettingsPage() {
@@ -51,14 +51,7 @@ export default async function SettingsPage() {
               </div>
               {/* TODO: Add switch component */}
               <div className="text-muted-foreground text-sm">
-                C
-                <Switch
-                  defaultChecked={true}
-                  onCheckedChange={(checked) => {
-                    // TODO: Salvar preferência
-                    console.log("Email notifications:", checked);
-                  }}
-                />
+                <EmailNotificationsToggle />
               </div>
             </div>
 

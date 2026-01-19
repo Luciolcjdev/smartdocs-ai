@@ -1,7 +1,7 @@
 // app/(dashboard)/dashboard/billing/page.tsx
-import { BillingHistory } from "@/components/billing/BillingHistory";
 import { PageTransition } from "@/components/shared/page-transition";
 
+import { BillingHistory } from "./components/billing-history";
 import { PricingCards } from "./components/pricing-cards";
 
 export default function BillingPage() {
@@ -22,7 +22,7 @@ export default function BillingPage() {
 
         <div>
           <h2 className="mb-4 text-xl font-semibold">Billing History</h2>
-          {/* <BillingHistory /> */}
+          <BillingHistory workspaceId="temp-workspace-id" />
         </div>
       </div>
     </PageTransition>
